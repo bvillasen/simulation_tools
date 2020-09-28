@@ -1,0 +1,15 @@
+{
+  "uploadOnSave": true,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "shamrock.ucsc.edu",
+  "port": "22",
+  "ignore": [
+    ".git/**"
+  ],
+  "username": "bruno",
+  "watch": [],
+  "useAgent": true,
+  "transport": "scp",
+  "target": "/home/bruno/simulation_tools"
+}
