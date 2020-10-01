@@ -13,9 +13,10 @@ from tools import *
 from ics_particles import generate_ics_particles
 from ics_grid import expand_data_grid_to_cholla
 
-data_dir = '/raid/bruno/data/'
-input_dir = data_dir + 'cosmo_sims/enzo/old/256_hydro_50Mpc/ics/'
-output_dir = data_dir + 'cosmo_sims/256_hydro_50Mpc/ics/'
+# data_dir = '/raid/bruno/data/'
+data_dir = '/data/groups/comp-astro/bruno/'
+input_dir = data_dir + 'cosmo_sims/enzo/512_hydro_50Mpc/ics/'
+output_dir = data_dir + 'cosmo_sims/512_hydro_50Mpc/ics_8/'
 print(f'Input Dir: {input_dir}' )
 print(f'Output Dir: {output_dir}' )
 create_directory( output_dir )
@@ -35,8 +36,11 @@ gas_dens = data_grid[ ('gas', 'density')].in_units('msun/kpc**3').v*current_a**3
 gas_vel_x = data_grid[('gas','velocity_x')].in_units('km/s').v
 gas_vel_y = data_grid[('gas','velocity_y')].in_units('km/s').v
 gas_vel_z = data_grid[('gas','velocity_z')].in_units('km/s').v
-gas_u = data_grid[('gas', 'thermal_energy' )].v 
-gas_E = 0.5 * gas_dens * ( gas_vel_x*gas_vel_x + gas_vel_y*gas_vel_y + gas_vel_z*gas_vel_z ) + gas_u* 1e-10 * gas_dens #km^2/s^2
+gas_u = data_grid[('gas', 'thermal_energy' )].v * 1e-10 * gas_dens #km^2/s^2
+gas_E = 0.5 * gas_dens * ( gas_vel_x*gas_vel_x + gas_vel_y*gas_vel_y + gas_vel_z*gas_vel_z ) + gas_u
+
+
+
 
 p_mass = data[('all', 'particle_mass')].in_units('msun')*h
 p_pos_x = data[('all', 'particle_position_x')].in_units('kpc')/current_a*h
@@ -67,9 +71,9 @@ data_enzo['gas']['Energy'] = gas_E
 
 
 Lbox = 50000.0
-proc_grid = [ 1, 1, 1]
+proc_grid = [ 2, 2, 2]
 box_size = [ Lbox, Lbox, Lbox ]
-grid_size = [ 256, 256, 256 ]
+grid_size = [ 512, 512, 512 ]
 output_base_name = '{0}_particles.h5'.format(nSnap)
 generate_ics_particles(data_enzo, output_dir, output_base_name, proc_grid, box_size, grid_size)
 
